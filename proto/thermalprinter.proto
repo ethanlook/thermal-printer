@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package ethanlook.component.thermalprinter;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/ethanlook/thermalprinter/proto/thermalprinter";
+
+service ThermalPrinterService {
+    rpc PrintText(PrintTextRequest) returns (PrintTextResponse) {
+      option (google.api.http) = {
+        post: "/ethanlook/component/thermalprinter/{name}/print"
+      };
+    }
+  
+}  
+
+message PrintTextRequest {
+    enum Underline {
+        UNDERLINE_NONE = 1;
+        UNDERLINE_THIN = 2;
+        UNDERLINE_THICK = 3;
+    }
+
+    enum Size {
+        SIZE_DEFAULT = 1; // Small
+        SIZE_MEDIUM = 2;
+        SIZE_LARGE = 3;
+    }
+
+    enum Justify {
+        JUSTIFY_DEFAULT = 1; // Left
+        JUSTIFY_CENTER = 2;
+        JUSTIFY_RIGHT = 3;
+    }
+    
+    // Name of a thermal printer
+    string name = 1;
+
+    // Text to be printed
+    string text = 2;
+    
+    // Formatting options
+    bool bold = 3;
+    Underline underline = 4;
+    // If true, white text on black fill.
+    bool inverse = 5;
+    bool upside_down = 6;
+    bool strikethrough = 7;
+    Size size = 8;
+    Justify justify = 9;
+}
+
+message PrintTextResponse {}
+
+message FeedRequest {
+    // Name of a thermal printer
+    string name = 1;
+    
+    // Number of lines to feed
+    int32 lines = 2;
+}
