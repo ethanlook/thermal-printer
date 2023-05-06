@@ -9,12 +9,17 @@ option go_package = "github.com/ethanlook/thermalprinter/proto/thermalprinter";
 
 service ThermalPrinterService {
     rpc PrintText(PrintTextRequest) returns (PrintTextResponse) {
-      option (google.api.http) = {
-        post: "/ethanlook/component/thermalprinter/{name}/print"
-      };
+        option (google.api.http) = {
+            post: "/ethanlook/component/thermalprinter/{name}/print_text"
+        };
     }
-  
-}  
+
+    rpc Feed(FeedRequest) returns (FeedResponse) {
+        option (google.api.http) = {
+            post: "/ethanlook/component/thermalprinter/{name}/feed"
+        };
+    }
+}
 
 message PrintTextRequest {
     enum Underline {
@@ -61,3 +66,5 @@ message FeedRequest {
     // Number of lines to feed
     int32 lines = 2;
 }
+
+message FeedResponse {}
